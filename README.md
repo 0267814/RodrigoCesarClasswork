@@ -10,7 +10,7 @@ We worked on SampleScene. The character can move left and right and jump when st
 
 We added four orange rectangular obstacles and three new platforms. We used different colors to make the player, obstacles, and platforms easy to tell apart during the game.
 
-We also added a goal with a flag image. When the player touches it, a “¡GANASTE!” (“YOU WON!”) message appears, and the character stops moving.
+We also added a goal with a flag image. When the player touches it, a message appears, and the character stops moving.
 
 The message is inside an object called Canvas Victoria. This object is part of the scene hierarchy, but it starts disabled and becomes visible when the player reaches the goal.
 
