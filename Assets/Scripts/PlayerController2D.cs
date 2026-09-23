@@ -20,7 +20,6 @@ public class PlayerController2D : MonoBehaviour
         spawnPosition = rb.position;
         groundFilter = new ContactFilter2D { useTriggers = false };
         groundFilter.SetLayerMask(groundLayer);
-        // Only upward-facing contacts count as ground, never the side of a block.
         groundFilter.SetNormalAngle(45f, 135f);
     }
 
@@ -47,7 +46,6 @@ public class PlayerController2D : MonoBehaviour
 
         jumpRequested = false;
 
-        // Allow another attempt if the player falls off the level.
         if (rb.position.y < -12f)
         {
             rb.position = spawnPosition;
