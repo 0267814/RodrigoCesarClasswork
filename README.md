@@ -12,7 +12,7 @@ We added four orange rectangular obstacles and three new platforms. We used diff
 
 We also added a goal with a flag image. When the player touches it, a message appears, and the character stops moving.
 
-The message is inside an object called Canvas Victoria. This object is part of the scene hierarchy, but it starts disabled and becomes visible when the player reaches the goal.
+The message is inside a Canvas. This Canvas is part of the scene hierarchy, but it starts disabled and becomes visible when the player reaches the goal.
 
 ## Controls
 
