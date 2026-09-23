@@ -1,51 +1,64 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Rigidbody2D), typeof(BoxCollider2D))]
 public class PlayerController2D : MonoBehaviour
 {
-
     public float moveSpeed = 8f;
     public float jumpForce = 12f;
-    public Transform groundCheck;
-    public float groundCheckRadius = 0.2f;
     public LayerMask groundLayer;
-    private Rigidbody2D rb;
-    private float horizontalInput;
-    private bool isGrounded;
 
-    void Start()
+    private Rigidbody2D rb;
+    private ContactFilter2D groundFilter;
+    private Vector2 spawnPosition;
+    private float horizontalInput;
+    private bool jumpRequested;
+    private bool hasWon;
+
+    private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        spawnPosition = rb.position;
+        groundFilter = new ContactFilter2D { useTriggers = false };
+        groundFilter.SetLayerMask(groundLayer);
+        groundFilter.SetNormalAngle(45f, 135f);
     }
 
-    void Update()
+    private void Update()
     {
-        
+        if (hasWon)
+            return;
+
         horizontalInput = Input.GetAxisRaw("Horizontal");
+        jumpRequested |= Input.GetButtonDown("Jump");
+    }
 
-        
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+    private void FixedUpdate()
+    {
+        if (hasWon)
+            return;
 
-        
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
+
+        if (jumpRequested && rb.linearVelocity.y <= 0.1f && rb.IsTouching(groundFilter))
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
         }
-    }
 
-    void FixedUpdate()
-    {
-        
-        rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
-    }
+        jumpRequested = false;
 
-    
-    private void OnDrawGizmosSelected()
-    {
-        if (groundCheck != null)
+        if (rb.position.y < -12f)
         {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+            rb.position = spawnPosition;
+            rb.linearVelocity = Vector2.zero;
         }
+    }
+
+    public void CompleteLevel()
+    {
+        hasWon = true;
+        horizontalInput = 0f;
+        jumpRequested = false;
+        rb.linearVelocity = Vector2.zero;
+        rb.bodyType = RigidbodyType2D.Kinematic;
     }
 }
