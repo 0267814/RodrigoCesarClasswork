@@ -36,9 +36,7 @@ The repository already contains a complete Unity project. You can download it an
 
 Open this link:
 
-https://github.com/0267814/RodrigoCesarClasswork/tree/Cesar
-
-Make sure the selected branch is Cesar. This is the branch where we uploaded the changes to the platforms, obstacles, and goal.
+https://github.com/0267814/RodrigoCesarClasswork.git
 
 ## 2. Download the files
 
